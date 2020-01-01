@@ -1,6 +1,7 @@
 # flutter_calculator
+Simple calculator created with flutter
 
-A new Flutter application.
+https://medium.com/@harshil1712/lets-flutter-how-i-built-a-simple-calculator-with-flutter-41410b76a1aa
 
 ## Getting Started
 
