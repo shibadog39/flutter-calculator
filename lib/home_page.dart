@@ -6,6 +6,8 @@ class HomePage extends StatefulWidget{ // creating a stateful widget
 }
 
 class HomePageState extends State<HomePage>{
+  var ansStr = "0";
+
   @override
   Widget build(BuildContext context) { // creating the widget
     return new Scaffold(
@@ -23,7 +25,7 @@ class HomePageState extends State<HomePage>{
                 alignment: Alignment.bottomRight, // Aligning the text to the bottom right of our display screen
                 color: Colors.white, // Seting the background color of the container
                 child: Text(
-                  "0",
+                  "$ansStr",
                   style: TextStyle( // Styling the text
                       fontSize: 50.0,
                       color: Colors.black
@@ -34,35 +36,35 @@ class HomePageState extends State<HomePage>{
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  _button("9", null), // using custom widget _button
-                  _button("8", null),
-                  _button("7", null),
+                  _button("9", _nine), // using custom widget _button
+                  _button("8", _eight),
+                  _button("7", _seven),
                   _button("+", null)
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  _button("6", null), // using custom widget _button
-                  _button("5", null),
-                  _button("4", null),
+                  _button("6", _six), // using custom widget _button
+                  _button("5", _five),
+                  _button("4", _four),
                   _button("-", null)
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  _button("3", null), // using custom widget _button
-                  _button("2", null),
-                  _button("1", null),
+                  _button("3", _three), // using custom widget _button
+                  _button("2", _two),
+                  _button("1", _one),
                   _button("*", null)
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  _button("C", null), // using custom widget _button
-                  _button("0", null),
+                  _button("C", _clear), // using custom widget _button
+                  _button("0", _zero),
                   _button("=", null),
                   _button("/", null)
                 ],
@@ -81,4 +83,26 @@ class HomePageState extends State<HomePage>{
       onPressed: f,
     );
   }
+
+  void _zero(){ _setPushedNumber('0'); }
+  void _one(){ _setPushedNumber('1'); }
+  void _two(){ _setPushedNumber('2'); }
+  void _three(){ _setPushedNumber('3'); }
+  void _four(){ _setPushedNumber('4'); }
+  void _five(){ _setPushedNumber('5'); }
+  void _six(){ _setPushedNumber('6'); }
+  void _seven(){ _setPushedNumber('7'); }
+  void _eight(){ _setPushedNumber('8'); }
+  void _nine(){ _setPushedNumber('9'); }
+  void _setPushedNumber(String number){
+    String newNumber = '0';
+    if(ansStr == '0'){
+      newNumber = number;
+    } else {
+      newNumber = ansStr + number;
+    }
+    setState((){ansStr=newNumber;});
+  }
+
+  void _clear(){ setState((){ansStr='0';}); }
 }
