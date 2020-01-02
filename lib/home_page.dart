@@ -71,7 +71,7 @@ class HomePageState extends State<HomePage>{
                   _button("6", _six), // using custom widget _button
                   _button("5", _five),
                   _button("4", _four),
-                  _button("-", null)
+                  _button("-", _minus)
                 ],
               ),
               Row(
@@ -80,7 +80,7 @@ class HomePageState extends State<HomePage>{
                   _button("3", _three), // using custom widget _button
                   _button("2", _two),
                   _button("1", _one),
-                  _button("*", null)
+                  _button("*", _multiply)
                 ],
               ),
               Row(
@@ -89,7 +89,7 @@ class HomePageState extends State<HomePage>{
                   _button("C", _clear), // using custom widget _button
                   _button("0", _zero),
                   _button("=", _equal),
-                  _button("/", null)
+                  _button("/", _divide)
                 ],
               )
             ],
@@ -142,11 +142,56 @@ class HomePageState extends State<HomePage>{
         operator='+';
       });
   }
+  void _minus(){
+    setState((){
+      processingStr=ansStr;
+      ansStr='0';
+      operator='-';
+    });
+  }
+  void _multiply(){
+    setState((){
+      processingStr=ansStr;
+      ansStr='0';
+      operator='*';
+    });
+  }
+  void _divide(){
+    setState((){
+      processingStr=ansStr;
+      ansStr='0';
+      operator='/';
+    });
+  }
   void _equal(){
     switch(operator) {
       case '+': {
         setState((){
-          ansStr = (int.parse(ansStr) + int.parse(processingStr)).toString();
+          ansStr = (double.parse(processingStr) + double.parse(ansStr)).toString();
+          processingStr = '0';
+          operator='';
+        });
+      }
+      break;
+      case '-': {
+        setState((){
+          ansStr = (double.parse(processingStr) - double.parse(ansStr)).toString();
+          processingStr = '0';
+          operator='';
+        });
+      }
+      break;
+      case '*': {
+        setState((){
+          ansStr = (double.parse(processingStr) * double.parse(ansStr)).toString();
+          processingStr = '0';
+          operator='';
+        });
+      }
+      break;
+      case '/': {
+        setState((){
+          ansStr = (double.parse(processingStr) / double.parse(ansStr)).toStringAsFixed(8);
           processingStr = '0';
           operator='';
         });
