@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart'; //imported flutter material package
+import 'dart:math';
 
 class HomePage extends StatefulWidget{ // creating a stateful widget
   @override
@@ -7,6 +8,16 @@ class HomePage extends StatefulWidget{ // creating a stateful widget
 
 class HomePageState extends State<HomePage>{
   var ansStr = "0";
+  var processingStr = "0";
+  var operator= "";
+
+  String displayedProcessingStr(){
+    if(processingStr=='0' && operator == ''){
+      return '';
+    }
+
+    return processingStr + ' ' + operator;
+  }
 
   @override
   Widget build(BuildContext context) { // creating the widget
@@ -24,14 +35,26 @@ class HomePageState extends State<HomePage>{
                 ),
                 alignment: Alignment.bottomRight, // Aligning the text to the bottom right of our display screen
                 color: Colors.white, // Seting the background color of the container
-                child: Text(
-                  "$ansStr",
-                  style: TextStyle( // Styling the text
-                      fontSize: 50.0,
-                      color: Colors.black
-                  ),
-                  textAlign: TextAlign.right,
-                ),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      displayedProcessingStr(),
+                      style: TextStyle( // Styling the text
+                          fontSize: 30.0,
+                          color: Colors.grey
+                      ),
+                      textAlign: TextAlign.right,
+                    ),
+                    Text(
+                      "$ansStr",
+                      style: TextStyle( // Styling the text
+                          fontSize: 50.0,
+                          color: Colors.black
+                      ),
+                      textAlign: TextAlign.right,
+                    )
+                  ]
+                )
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -39,7 +62,7 @@ class HomePageState extends State<HomePage>{
                   _button("9", _nine), // using custom widget _button
                   _button("8", _eight),
                   _button("7", _seven),
-                  _button("+", null)
+                  _button("+", _plus)
                 ],
               ),
               Row(
@@ -65,7 +88,7 @@ class HomePageState extends State<HomePage>{
                 children: <Widget>[
                   _button("C", _clear), // using custom widget _button
                   _button("0", _zero),
-                  _button("=", null),
+                  _button("=", _equal),
                   _button("/", null)
                 ],
               )
@@ -104,5 +127,32 @@ class HomePageState extends State<HomePage>{
     setState((){ansStr=newNumber;});
   }
 
-  void _clear(){ setState((){ansStr='0';}); }
+  void _clear(){
+    setState((){
+      ansStr='0';
+      processingStr='0';
+      operator='';
+    });
+
+  }
+  void _plus(){
+      setState((){
+        processingStr=ansStr;
+        ansStr='0';
+        operator='+';
+      });
+  }
+  void _equal(){
+    switch(operator) {
+      case '+': {
+        setState((){
+          ansStr = (int.parse(ansStr) + int.parse(processingStr)).toString();
+          processingStr = '0';
+          operator='';
+        });
+      }
+      break;
+    }
+  }
+
 }
